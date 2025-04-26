@@ -1,7 +1,7 @@
 {
   "name": "tailwind-class-hasher",
   "displayName": "Tailwind Hasher",
-  "description": "An extension to make finding Tailwind classes a breeze!",
+  "description": "Make finding Tailwind classes a breeze!",
   "version": "1.0.0",
   "publisher": "madasebrof",
 	"private": false,

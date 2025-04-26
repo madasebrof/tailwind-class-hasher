@@ -1,5 +1,7 @@
 Tailwind Hasher is magical. It allows you to find the source of a tailwind class (or any atomic css system, e.g. UnoCSS, etc.) within your code base super easily.
 
+![Alt Text](output.gif)
+
 The gist is, it adds a tiny random hash to the front of all `class` or `className` text.
 
 Before:
@@ -56,10 +58,6 @@ No more crazy searches.
 
 Simple troublshooting! Even in **huge** React/Tailwind codebases!
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
 ## FAQ
 
 **Q. Why is this so awesome? And why didn't this exist before?!?**
@@ -79,6 +77,10 @@ A. Yes! Once they are generated and assigned to a `class`/`className`, they don'
 A. Both! So much easier to troubleshoot production code when you can figure out the exact source of the issue!
 
 ## Extension Settings
+
+You can access from the Command Palette, but in general better to just set to autosave?
+
+![alt text](twhasher.png)
 
 This extension adds a toggler in the status bar to tsx/jsx files, allowing you to toggle auto hash on save. (It's recommened that you leave it on auto-save mode. Why not?)
 
