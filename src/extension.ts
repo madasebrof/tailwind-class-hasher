@@ -23,10 +23,9 @@ function isRandomHash(classList: string): boolean {
   return reHashMatch.test(firstToken);
 }
 
-async function runHashingOnDocument(
-  document: vscode.TextDocument,
-  verbose: boolean = true
-) {
+async function computeHashingOnDocument(
+  document: vscode.TextDocument
+): Promise<vscode.TextEdit[]> {
   const text = document.getText();
 
   let match;
@@ -71,6 +70,15 @@ async function runHashingOnDocument(
     matchIndex++;
   }
 
+  return edits;
+}
+
+async function runHashingOnDocument(
+  document: vscode.TextDocument,
+  verbose: boolean = true
+) {
+  const edits: vscode.TextEdit[] = await computeHashingOnDocument(document);
+
   // Apply edits
   if (edits.length > 0) {
     const edit = new vscode.WorkspaceEdit();
@@ -85,20 +93,9 @@ async function runHashingOnDocument(
         vscode.window.showInformationMessage(msg);
       }
     });
-  } else if (matchIndex > 0) {
-    if (verbose) {
-      vscode.window.showInformationMessage(
-        `No New Tailwind Hashes added, ${matchIndex} already exist`
-      );
-    }
-  } else {
-    if (verbose) {
-      vscode.window.showWarningMessage(
-        "No Tailwind Hashes added — can't find any 'class' or 'className' entries in current file."
-      );
-    }
   }
 }
+
 async function removeHashingOnDocument(document: vscode.TextDocument) {
   const text = document.getText();
   let match;
@@ -153,10 +150,9 @@ async function removeHashingOnDocument(document: vscode.TextDocument) {
 }
 
 function updateAutoHashStatusBar(): void {
-  autoHashStatusBarItem.text = `Tw Hasher Auto: ${
-    autoHashEnabled ? "On" : "Off"
-  }`;
-  autoHashStatusBarItem.tooltip = "Click to toggle Tailwind Hasher on save";
+  autoHashStatusBarItem.text = `TwHasher: ${autoHashEnabled ? "On" : "Off"}`;
+  autoHashStatusBarItem.tooltip =
+    "Click to toggle Tailwind Hasher - hashing on save";
   autoHashStatusBarItem.show();
 }
 
@@ -182,8 +178,8 @@ export function activate(context: vscode.ExtensionContext) {
       updateAutoHashStatusBar();
       vscode.window.showInformationMessage(
         autoHashEnabled
-          ? "Tailwind Auto Hashing ENABLED"
-          : "Tailwind Auto Hashing DISABLED"
+          ? "Tailwind Hasher - hashing on save is enabled."
+          : "Tailwind Hasher - hashing on save is disabled."
       );
     }
   );
@@ -213,25 +209,25 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  vscode.workspace.onDidSaveTextDocument((document) => {
+  vscode.workspace.onWillSaveTextDocument((event) => {
     if (!autoHashEnabled) {
       return;
     }
+
+    const document = event.document;
 
     if (
       document.languageId === "typescriptreact" ||
       document.languageId === "javascriptreact"
     ) {
-      const workspaceFolder = vscode.workspace.getWorkspaceFolder(document.uri);
-
-      let relativePath = document.uri.fsPath;
-      if (workspaceFolder) {
-        const rootPath = workspaceFolder.uri.fsPath;
-        relativePath = relativePath.replace(rootPath + "/", "");
-      }
-
-      const verbose = false;
-      runHashingOnDocument(document, verbose);
+      event.waitUntil(
+        (async () => {
+          const edits = await computeHashingOnDocument(document);
+          if (edits.length > 0) {
+            return edits;
+          }
+        })()
+      );
     }
   });
 

@@ -1,71 +1,99 @@
-# tailwind-class-hasher README
+Tailwind Hasher is magical. It allows you to find the source of a tailwind class (or any atomic css system, e.g. UnoCSS, etc.) within your code base super easily.
 
-This is the README for your extension "tailwind-class-hasher". After writing up a brief description, we recommend including the following sections.
+The gist is, it adds a tiny random hash to the front of all `class` or `className` text.
+
+Before:
+
+```jsx
+<div
+  className={cn(
+    'max-w-xl rounded-3xl px-6 py-5 relative group font-mono text-sm',
+    isAssistant
+      ? 'bg-primary text-primary-foreground'
+      : 'bg-secondary text-secondary-foreground'
+  )}>
+```
+
+After:
+
+```jsx
+<div
+  className={cn(
+    '0d0t0c3t max-w-xl rounded-3xl px-6 py-5 relative group font-mono text-sm',
+    isAssistant
+      ? 'bg-primary text-primary-foreground'
+      : 'bg-secondary text-secondary-foreground'
+  )}>
+```
+
+That way, you can search for `0d0t0c3t` in your code base, not `rounded-3xl px-6 py-5 relative group font-mono text-sm bg-primary text-primary-foreground`.
+
+Which, PS, _will never match_, as that string does not exist in the code (as the Tailwind class is constructed dynamically!)
+
+It works with all basic `class`/`className` constructions:
+
+```jsx
+<div className="0d0t0c3t max-w-3xl mx-auto w-full flex-1 overflow-y-auto grow px-0 py-6 space-y-8 max-h-[calc(100vh-12rem)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-14">
+```
+
+```html
+<div
+  class="0d0t0c3t max-w-3xl mx-auto w-full flex-1 overflow-y-auto grow px-0 py-6 space-y-8 max-h-[calc(100vh-12rem)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-14"
+></div>
+```
+
+And works with all quote types: backtick, single-quote and double quote.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Easy On The Eyes
 
-For example if there is an image subfolder under your extension project workspace:
+The hash was specially design to be pleasant to look at. No UPPERCASE LETTERS! Ahhh. Relaxing.
+
+### Saves Countless Minutes
+
+No more crazy searches.
+
+Simple troublshooting! Even in **huge** React/Tailwind codebases!
 
 \!\[feature X\]\(images/feature-x.png\)
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
+## FAQ
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+**Q. Why is this so awesome? And why didn't this exist before?!?**
+
+A. Right?!?
+
+**Q. How robust is the hash?**
+
+A. There are 78,364,164,096 possible hashes. So birthday problem-wise, you will be okay with huge codebases. And if by some epically unlikely fluke you get a collision, just delete the hash & you will automagically get a new one. Phew!
+
+**Q. Are the hashes stable?**
+
+A. Yes! Once they are generated and assigned to a `class`/`className`, they don't change. So you can check into git, etc.
+
+**Q. Is this designed for production code? Or just dev?**
+
+A. Both! So much easier to troubleshoot production code when you can figure out the exact source of the issue!
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+This extension adds a toggler in the status bar to tsx/jsx files, allowing you to toggle auto hash on save. (It's recommened that you leave it on auto-save mode. Why not?)
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None, but feel free to log an issue if you come across one!
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release of Tailwind Hasher. Woot!
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+Source code available at https://github.com/madasebrof/tailwind-class-hasher
 
 **Enjoy!**

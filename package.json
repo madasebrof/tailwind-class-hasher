@@ -2,7 +2,18 @@
   "name": "tailwind-class-hasher",
   "displayName": "Tailwind Hasher",
   "description": "An extension to make finding Tailwind classes a breeze!",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "publisher": "madasebrof",
+	"private": false,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/madasebrof/tailwind-class-hasher"
+	},
+  "icon": "icon.png",
+	"bugs": {
+		"url": "https://github.com/madasebrof/tailwind-class-hasher/issues"
+	},
   "engines": {
     "vscode": "^1.99.0"
   },
