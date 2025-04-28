@@ -150,7 +150,9 @@ async function removeHashingOnDocument(document: vscode.TextDocument) {
 }
 
 function updateAutoHashStatusBar(): void {
+  // autoHashStatusBarItem.text = `# ${autoHashEnabled ? "On" : "Off"}`;
   autoHashStatusBarItem.text = `TwHasher: ${autoHashEnabled ? "On" : "Off"}`;
+  // autoHashStatusBarItem.text = `# ${autoHashEnabled ? "$(check)" : "$(x)"}`;
   autoHashStatusBarItem.tooltip =
     "Click to toggle Tailwind Hasher - hashing on save";
   autoHashStatusBarItem.show();

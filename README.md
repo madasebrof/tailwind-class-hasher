@@ -90,6 +90,10 @@ None, but feel free to log an issue if you come across one!
 
 ## Release Notes
 
+### 1.0.1
+
+Downgraded VS Code version to 1.96.0 work with Cursor AI.
+
 ### 1.0.0
 
 Initial release of Tailwind Hasher. Woot!

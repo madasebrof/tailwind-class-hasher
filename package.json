@@ -15,7 +15,7 @@
 		"url": "https://github.com/madasebrof/tailwind-class-hasher/issues"
 	},
   "engines": {
-    "vscode": "^1.99.0"
+    "vscode": "^1.96.0"
   },
   "categories": [
     "Other"
